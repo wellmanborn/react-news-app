@@ -108,3 +108,6 @@ a{
 .react-datepicker-wrapper{
   width: 100%
 }
+.alert {
+  --bs-alert-padding-x: 0rem;
+}

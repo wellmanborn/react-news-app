@@ -5,13 +5,17 @@ const AuthContext = createContext(null);
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({children}) => {
 
-    const [user, setUser] = useState(null);
+    const userDetails = localStorage.getItem('userDetails') ?? null;
+
+    const [user, setUser] = useState(userDetails);
 
     const login = (user) => {
+        localStorage.setItem('userDetails', JSON.stringify(user));
         setUser(user);
     }
 
     const logout = () => {
+        localStorage.removeItem('userDetails');
         setUser(null);
     }
 
