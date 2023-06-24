@@ -14,12 +14,8 @@ const animatedComponents = makeAnimated();
 function Search({cleanArticle}) {
 
     const [startDate, setStartDate] = useState("");
-
-    const options = [
-        {value: 'chocolate', label: 'Chocolate'},
-        {value: 'strawberry', label: 'Strawberry'},
-        {value: 'vanilla', label: 'Vanilla'}
-    ]
+    const [categories, setCategories] = useState([]);
+    const [sources, setSources] = useState([]);
 
     let {register, handleSubmit, formState: {errors}, setValue} = useForm();
 
@@ -28,6 +24,11 @@ function Search({cleanArticle}) {
     }
 
     useEffect(() => {
+        http.post("http://localhost:8000/api/search/params", {})
+            .then(response => {
+                setCategories(response.data.data.categories)
+                setSources(response.data.data.sources)
+            })
         http.post("http://localhost:8000/api/search", {
             keyword: "technology",
         })
@@ -51,7 +52,7 @@ function Search({cleanArticle}) {
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <div className="search-box">
                     <Row>
-                        <Col className="col-lg-3 col-md-3 col-sm-12">
+                        <Col className="col-lg-3 col-md-3 col-sm-6">
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Keyword</Form.Label>
                                 <Form.Control type="text"
@@ -65,7 +66,7 @@ function Search({cleanArticle}) {
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>
-                        <Col className="col-lg-3 col-md-3 col-sm-12">
+                        <Col className="col-lg-3 col-md-3  col-sm-6">
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Published At</Form.Label>
                                 <DatePicker className="form-control"
@@ -82,7 +83,7 @@ function Search({cleanArticle}) {
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>
-                        <Col className="col-lg-3 col-md-3 col-sm-12">
+                        <Col className="col-lg-3 col-md-3  col-sm-6">
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Category</Form.Label>
                                 <Select closeMenuOnSelect={false}
@@ -92,13 +93,13 @@ function Search({cleanArticle}) {
                                         components={animatedComponents}
                                         onChange={data => setValue("category", data)}
                                         isMulti
-                                        options={options}/>
+                                        options={categories}/>
                                 <Form.Control.Feedback type="invalid">
                                     {errors.category && errors.category.message}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>
-                        <Col className="col-lg-3 col-md-3 col-sm-12">
+                        <Col className="col-lg-3 col-md-3  col-sm-6">
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Resource</Form.Label>
                                 <Select closeMenuOnSelect={false}
@@ -108,7 +109,7 @@ function Search({cleanArticle}) {
                                         components={animatedComponents}
                                         onChange={data => setValue("resource", data)}
                                         isMulti
-                                        options={options}/>
+                                        options={sources}/>
                                 <Form.Control.Feedback type="invalid">
                                     {errors.resource && errors.resource.message}
                                 </Form.Control.Feedback>
