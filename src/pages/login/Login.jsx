@@ -50,8 +50,8 @@ function Login() {
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control type="email"
                                               isInvalid={errors.email}
-                                              placeholder={"Enter your email"}
-                                              aria-label={"Enter your email"}
+                                              placeholder="Enter your email"
+                                              aria-label="Enter your email"
                                               {...register("email")}
                                 />
                                 <Form.Control.Feedback type="invalid">

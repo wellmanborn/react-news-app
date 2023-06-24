@@ -23,7 +23,7 @@ const echo = new Echo({
         };
     },
     broadcaster: 'pusher',
-    key: 'ccpT67Q9OqTSA73beV2rh1MH7g',
+    key: 'W3rKyX9deEdsOZh',
     wsHost: window.location.hostname,
     wsPort: 6001,
     forceTLS: false,
