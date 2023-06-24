@@ -19,17 +19,25 @@ const onRequest = (config) => {
     }
     return config;
 }
+
+const onRejected = (error) => {
+    if (error.response.status === 401) {
+        localStorage.removeItem('userDetails');
+    }
+    return error;
+}
 const setCSRFToken = () => {
     return axiosInstance.get('/sanctum/csrf-cookie');
 }
 
-axiosInstance.interceptors.response.use(response => {
+/*axiosInstance.interceptors.response.use(response => {
     return response;
 }, error => {
     if (error.response.status === 401) {
         localStorage.removeItem('userDetails');
     }
     return error;
-});
-axiosInstance.interceptors.request.use(onRequest, null);
+});*/
+axiosInstance.interceptors.request.use(onRequest, onRejected)
+
 export default axiosInstance;
