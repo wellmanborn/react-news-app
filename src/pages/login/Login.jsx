@@ -1,4 +1,4 @@
-import {useLocation, useNavigate, Link} from "react-router-dom";
+import {useLocation, useNavigate, Link, Navigate} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import newsLogo from "../../assets/logo.png";
@@ -17,6 +17,10 @@ function Login() {
     const navigate = useNavigate();
     const redirectPath = location.state?.path || "/";
     const [error, setError] = useState(false);
+
+    if(auth.user && auth.user !== "undefined") {
+        return <Navigate to={redirectPath} state={{from: location}} replace/>
+    }
 
     let {register, handleSubmit, formState: {errors}} = useForm({resolver: LoginValidation()});
 

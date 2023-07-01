@@ -26,13 +26,13 @@ const onRejected = (error) => {
         localStorage.removeItem('userDetails');
         window.location.href = "login";
     }
-    return error;
+    return Promise.reject(error);
 }
 const setCSRFToken = () => {
     return axiosInstance.get('/sanctum/csrf-cookie');
 }
 
-axiosInstance.interceptors.request.use(onRequest)
+axiosInstance.interceptors.request.use(onRequest, error => Promise.reject(error))
 axiosInstance.interceptors.response.use(onResponse, onRejected)
 
 export default axiosInstance;

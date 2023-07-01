@@ -9,7 +9,8 @@ export const Authenticated = ({children}) => {
     const location = useLocation();
     const auth = useAuth();
 
-    if(!auth.user){
+    if(!auth.user || auth.user === "undefined"){
+        auth.logout()
         return <Navigate to="/login" state={{ from: location}} replace />
     }
 

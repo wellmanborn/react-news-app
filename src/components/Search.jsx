@@ -24,10 +24,10 @@ function Search({cleanArticle}) {
     }
 
     useEffect(() => {
-        http.post("http://localhost:8000/api/search/params", {})
+        http.get("http://localhost:8000/api/sources", {})
             .then(response => {
-                setCategories(response.data.data.categories)
-                setSources(response.data.data.sources)
+                setSources(response.data.data)
+                // setSources(response.data.data)
             })
         http.post("http://localhost:8000/api/search", {
             keyword: "technology",
@@ -43,7 +43,18 @@ function Search({cleanArticle}) {
             category: data.category,
             resource: data.resource,
         }).then(resource => {
-            console.log(resource)
+            //console.log(resource)
+        }).catch(error => console.log("error", error))
+    }
+
+    const handleResourceChange = data => {
+        setValue("category", null)
+        setValue("resource", data)
+        let resource = data.value.split("|")[0]
+        http.post("http://localhost:8000/api/categories", {
+            data_source: resource
+        }).then(response => {
+            setCategories(response.data.data)
         }).catch(error => console.log("error", error))
     }
 
@@ -85,6 +96,22 @@ function Search({cleanArticle}) {
                         </Col>
                         <Col className="col-lg-3 col-md-3  col-sm-6">
                             <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                                <Form.Label>Resource</Form.Label>
+                                <Select closeMenuOnSelect={false}
+                                        name="resource"
+                                        {...register("resource")}
+                                        isInvalid={errors.resource}
+                                        components={animatedComponents}
+                                        onChange={data => handleResourceChange(data)}
+                                        // isMulti
+                                        options={sources}/>
+                                <Form.Control.Feedback type="invalid">
+                                    {errors.resource && errors.resource.message}
+                                </Form.Control.Feedback>
+                            </Form.Group>
+                        </Col>
+                        <Col className="col-lg-3 col-md-3  col-sm-6">
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                                 <Form.Label>Category</Form.Label>
                                 <Select closeMenuOnSelect={false}
                                         name="category"
@@ -96,22 +123,6 @@ function Search({cleanArticle}) {
                                         options={categories}/>
                                 <Form.Control.Feedback type="invalid">
                                     {errors.category && errors.category.message}
-                                </Form.Control.Feedback>
-                            </Form.Group>
-                        </Col>
-                        <Col className="col-lg-3 col-md-3  col-sm-6">
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                <Form.Label>Resource</Form.Label>
-                                <Select closeMenuOnSelect={false}
-                                        name="resource"
-                                        {...register("resource")}
-                                        isInvalid={errors.resource}
-                                        components={animatedComponents}
-                                        onChange={data => setValue("resource", data)}
-                                        isMulti
-                                        options={sources}/>
-                                <Form.Control.Feedback type="invalid">
-                                    {errors.resource && errors.resource.message}
                                 </Form.Control.Feedback>
                             </Form.Group>
                         </Col>

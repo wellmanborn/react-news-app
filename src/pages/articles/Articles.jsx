@@ -18,6 +18,7 @@ function Articles() {
     const user = typeof auth.user == "object" ? auth.user : JSON.parse(auth.user)
 
     useEffect(() => {
+        console.log(user.id)
         const channel = echo.private('articles.' + user.id);
 
         channel.listen('.data', (data) => {
