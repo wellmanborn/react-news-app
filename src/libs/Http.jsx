@@ -22,7 +22,7 @@ const onResponse = response => {
     return response;
 }
 const onRejected = (error) => {
-    if (error.response.status === 401) {
+    if (error.response?.status === 401) {
         localStorage.removeItem('userDetails');
         window.location.href = "login";
     }
@@ -32,7 +32,7 @@ const setCSRFToken = () => {
     return axiosInstance.get('/sanctum/csrf-cookie');
 }
 
-axiosInstance.interceptors.request.use(onRequest, error => Promise.reject(error))
+axiosInstance.interceptors.request.use(onRequest)
 axiosInstance.interceptors.response.use(onResponse, onRejected)
 
 export default axiosInstance;

@@ -18,10 +18,6 @@ function Login() {
     const redirectPath = location.state?.path || "/";
     const [error, setError] = useState(false);
 
-    if(auth.user && auth.user !== "undefined") {
-        return <Navigate to={redirectPath} state={{from: location}} replace/>
-    }
-
     let {register, handleSubmit, formState: {errors}} = useForm({resolver: LoginValidation()});
 
     const onSubmit = async (data) => {
